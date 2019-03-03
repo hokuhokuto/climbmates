@@ -1,0 +1,22 @@
+<% groups.each do |group| %>
+<div class="container jumbotron">
+  <div class="col-xs-2">
+    <%= image_tag(group_image?(group), size: "150x150") %>
+  </div>
+  <div class="col-xs-10">
+    <ul>
+      <li><span>group_id: </span><%= group.id %></li>
+      <li><span>グループ名: </span><%= link_to group.name, group_path(group) %></li>
+      <li><span>グループ概要: </span><%= group.info %></li>
+      <li><span>リーダー: </span><%= User.find_by(id: group.user_id).name %></li>
+      <% unless group.user == current_user %>
+        <li><%= render '/group_relationships/join_button', group: group %></li>
+      <% end %>
+      <% if group.user_id == current_user.id %>
+      <li><%= link_to '編集', edit_group_path(group.id) %></li>
+      <li><%= link_to '削除', group_path(group.id), method: :delete %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<% end %>

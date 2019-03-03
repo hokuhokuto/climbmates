@@ -1,0 +1,48 @@
+<h1><%= @group.name %>の詳細ページ</h1>
+<div class="container">
+  <div class="container jumbotron">
+    <div class="col-xs-2">
+      <%= image_tag(group_image?(@group), size: "150x150") %>
+    </div>
+    <div class="col-xs-10">
+      <ul>
+        <li><span>group_id: </span><%= @group.id %></li>
+        <li><span>グループ名: </span><%= link_to @group.name, group_path(@group) %></li>
+        <li><span>グループ概要: </span><%= @group.info %></li>
+        <li><span>リーダー: </span><%= User.find_by(id: @group.user_id).name %></li>
+        <% unless @group.user == current_user %>
+          <li><%= render '/group_relationships/join_button', group: @group %></li>
+        <% end %>
+        <% if @group.user_id == current_user.id %>
+        <li><%= link_to '編集', edit_group_path(@group.id) %></li>
+        <li><%= link_to '削除', group_path(@group.id), method: :delete %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <% if @group.user == current_user %>
+    <div class="container col-xs-4">
+      承認待ちのユーザー
+      <ul>
+        <% @join_wish_users.each do |user| %>
+        <li><%= link_to user.name, user %><%= " 承認する" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="container col-xs-4">
+      参加ユーザー一覧
+      
+      
+    </div>
+    <div class="container col-xs-4">
+      イベント一覧
+    </div>
+  <% else %>
+    <div class="container col-xs-6">
+      ユーザー一覧
+    </div>
+    <div class="container col-xs-6">
+      イベント一覧
+    </div>
+  <% end %>
+</div>
