@@ -18,6 +18,6 @@ Rails.application.routes.draw do
   resources :groups
   
   #GroupRelationship
-  resources :group_relationships, only: [:create, :destroy]
+  resources :group_relationships, only: [:create, :destroy, :update]
   
 end

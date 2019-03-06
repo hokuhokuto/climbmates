@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :require_user_logged_in, only: [:show, :edit, :update]
+  before_action :user_owner?, only: [:edit, :update, :destroy]
+  
   def show
     @user = User.find_by(id: params[:id])
   end
@@ -27,10 +30,10 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @user.update(user_params)
     if @user.save
-      flash[:success] = 'ユーザー情報を編集しました。'
+      flash[:success] = '編集しました。'
       redirect_to @user
     else
-      flash[:danger] = 'ユーザー情報の編集に失敗しました。'
+      flash[:danger] = '編集に失敗しました。'
       render :edit
     end
   end
@@ -40,5 +43,12 @@ class UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :image, :comment)
+  end
+  
+  def user_owner?
+    user = User.find(params[:id])
+    unless user.id == current_user.id
+      redirect_to user_path
+    end
   end
 end

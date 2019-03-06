@@ -1,0 +1,10 @@
+<% if group.user == current_user %>
+  <% if group.group_relationships.find_by(user_id: user.id).approval == "pending" %>
+    <%= form_for(user.group_relationships.find_by(group_id: group.id), html: { method: :patch }) do |f| %>
+      <%= hidden_field_tag :approval, "approvaled" %>
+      <%= hidden_field_tag :user_id, user.id %>
+      <%= hidden_field_tag :group_id, group.id %>
+      <%= f.submit '承認する' %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,5 +1,15 @@
 class ToppagesController < ApplicationController
   def index
-    @users = User.all
+    if logged_in?
+      @groups = current_user_join_groups
+    end
   end
 end
+
+
+  private
+  
+  def current_user_join_groups
+    group_ids = GroupRelationship.where(user_id: current_user.id).where(approval: "approvaled").select("group_id")
+    Group.all.where(id: group_ids).order("updated_at DESC")
+  end

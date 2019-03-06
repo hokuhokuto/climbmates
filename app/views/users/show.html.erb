@@ -1,16 +1,18 @@
 <div class="container text-center">
-  <h1><%= @user.name %>の詳細ページ</h1>
-  <%= image_tag(group_image?(@user), size: "150x150") %>
+  <h1><%= @user.name %>さんの詳細ページ</h1>
+  <%= image_tag(image?(@user), size: "150x150") %>
+  <div>
   <p>コメント:<%= @user.comment %></p>
-  
+  </div>
   <% if @user == current_user %>
     <%= form_for(@user) do |f| %>
     <div class="form-group">
       <%= render 'layouts/error_messages', model: f.object %>
       <%= f.label :comment, 'Comment' %>
       <%= f.text_field :comment, class: 'form_controll' %>
+      <%= f.submit "コメント" %>
     </div>
     <% end %>
-  <% end %>
   <%= link_to "ユーザー情報を編集", edit_user_path %>
+  <% end %>
 </div>

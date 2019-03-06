@@ -1,4 +1,7 @@
 class GroupsController < ApplicationController
+  before_action :require_user_logged_in
+  before_action :group_owner?, only: [:edit, :update, :destroy]
+  
 
   def index
     @groups = Group.all.order("updated_at DESC")
@@ -6,7 +9,9 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find_by(id: params[:id])
+    @groups = Group.where(id: params[:id])
     @join_wish_users = User.all.where(id: pending_user_id)
+    @joined_users = User.all.where(id: joined_user_id)
   end
 
   def new
@@ -65,6 +70,17 @@ class GroupsController < ApplicationController
   
   def pending_user_id
     GroupRelationship.where(group_id: @group.id).where(approval: "pending").select("user_id")
+  end
+  
+  def joined_user_id
+    GroupRelationship.where(group_id: @group.id).where(approval: "approvaled").select("user_id")
+  end
+  
+  def group_owner?
+    group = Group.find(params[:id])
+    unless group.user_id == current_user.id
+      redirect_to groups_path
+    end
   end
   
   def group_params

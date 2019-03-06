@@ -1,2 +1,8 @@
 <h1><%= current_user.name %>さん主催のグループ一覧</h1>
 <%= render '/groups/group_index', groups: @groups %>
+<% if @groups == nil  %>
+<div class="container">
+  <h2>まだグループを作成していません</h2>
+  <%= link_to 'グループを作成する', new_group_path %>
+  <% end %>
+</div>

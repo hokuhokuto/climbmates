@@ -1,5 +1,6 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザー: <%= current_user.name %></p>
+  <h1>参加済みのグループ一覧</h1>
+  <%= render '/groups/group_index', groups: @groups %>
 
 <% else %>
 

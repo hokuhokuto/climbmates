@@ -24,5 +24,7 @@ class User < ApplicationRecord
     group_relationship.destroy if group_relationship
   end
   
-  
+  def group_member?(group)
+    self.group_relationships.include?(group.id)
+  end
 end
