@@ -2,30 +2,47 @@
 <div class="container">
   <%= render "/groups/group_index", groups: @groups %>
 </div>
-    
-<% if @group.user == current_user && @join_wish_users == nil %>
+
+<% if @joined_users.include?(current_user) %>
+  <div class="container">
+    <%= link_to 'イベントを新規作成', new_ivent_path(group_id: @group.id) %>
+  </div>
+<% end %>
+
+<% if @group.user == current_user && @join_wish_users != nil %>
   <div class="container col-xs-4">
-    <h4>承認待ちのユーザー</h4>
+    <div class="jumbotron">
+      <h4>承認待ちのユーザー</h4>
+      <ul>
+        <% @join_wish_users.each do |user| %>
+          <li><%= link_to user.name, user %><%= render "group_relationships/apploval_button", user: user, group: @group %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<div class="container <%= col_size_6to4 %>">
+  <div class="jumbotron">
+    <h4>参加済のユーザー一覧</h4>
     <ul>
-      <% @join_wish_users.each do |user| %>
-        <li><%= link_to user.name, user %><%= render "group_relationships/apploval_button", user: user, group: @group %></li>
+      <% @joined_users.each do |user| %>
+        <li><%= link_to user.name, user %></li>
+        <li>コメント:<%= user.comment %></li>
       <% end %>
     </ul>
   </div>
-<% end %>
+</div>
+
 <div class="container <%= col_size_6to4 %>">
-  <h4>参加済のユーザー一覧</h4>
-  <ul>
-    <% @joined_users.each do |user| %>
-      <li><%= link_to user.name, user %></li>
-      <li>コメント:<%= user.comment %></li>
+  <div class="jumbotron">
+    <h4>イベント一覧</h4>
+    <% @ivents.each do |ivent| %>
+    <ul>
+      <li>イベントID:<%= ivent.id %></li>
+      <li>イベント名:<%= link_to ivent.title, ivent %></li>
+      <li>イベント概要:<%= ivent.content %></li>
+    </ul>
     <% end %>
-  </ul>
-</div>
-<div class="container <%= col_size_6to4 %>">
-  <h4>イベント一覧</h4>
-  <ul>
-    
-  </ul>
-</div>
+  </div>
 </div>

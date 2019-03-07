@@ -20,4 +20,7 @@ Rails.application.routes.draw do
   #GroupRelationship
   resources :group_relationships, only: [:create, :destroy, :update]
   
+  #Ivent
+  resources :ivents, only: [:new, :show, :create, :edit, :update, :destroy]
+  
 end

@@ -10,8 +10,9 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find_by(id: params[:id])
     @groups = Group.where(id: params[:id])
-    @join_wish_users = User.all.where(id: pending_user_id)
-    @joined_users = User.all.where(id: joined_user_id)
+    @join_wish_users = User.where(id: pending_user_id)
+    @joined_users = User.where(id: joined_user_id)
+    @ivents = Ivent.where(group_id: @group.id)
   end
 
   def new

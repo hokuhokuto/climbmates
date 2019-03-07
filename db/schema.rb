@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190303062252) do
+ActiveRecord::Schema.define(version: 20190306131615) do
 
   create_table "group_relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 20190303062252) do
     t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
   end
 
+  create_table "ivents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.string   "title"
+    t.string   "content"
+    t.date     "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_ivents_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_ivents_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
@@ -45,4 +57,6 @@ ActiveRecord::Schema.define(version: 20190303062252) do
   add_foreign_key "group_relationships", "groups"
   add_foreign_key "group_relationships", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "ivents", "groups"
+  add_foreign_key "ivents", "users"
 end

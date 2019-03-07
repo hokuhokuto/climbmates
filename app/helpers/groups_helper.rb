@@ -8,7 +8,7 @@ module GroupsHelper
   end
   
   def col_size_6to4
-    if @group.user == current_user && @join_wish_users == nil
+    if @group.user == current_user && @join_wish_users != nil
       return "col-xs-4"
     else
       return "col-xs-6"
