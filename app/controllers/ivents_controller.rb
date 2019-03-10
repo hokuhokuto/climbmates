@@ -1,4 +1,8 @@
 class IventsController < ApplicationController
+  before_action :ivent_owner?, only: [:edit,:update,:destroy]
+  before_action :ivent_member?, only: [:show]
+  
+  
   def new
     @ivent = Ivent.new
     @group = Group.find(params[:group_id])
@@ -41,8 +45,24 @@ class IventsController < ApplicationController
   def destroy
   end
   
+  private
   
   def ivent_params
     params.require(:ivent).permit(:group_id, :title, :date, :content)
   end
+  
+  def ivent_member?
+    ivent = Ivent.find(params[:id])
+    unless ivent.group.group_relationships.find_by(user_id: current_user.id)
+      redirect_to group_url(ivent.group)
+    end
+  end
+  
+  def ivent_owner?
+    ivent = Ivent.find(params[:id])
+    unless ivent.user == current_user
+      redirect_to group_url(ivent.group)
+    end
+  end
+  
 end

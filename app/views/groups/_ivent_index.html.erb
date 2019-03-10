@@ -4,7 +4,12 @@
     <% ivents.each do |ivent| %>
       <div class="panel panel-default">
         <div class="panel-heading">
-    	    <%= "ID: #{ivent.id} " %><%= link_to ivent.title, ivent %>
+    	    <%= "ID: #{ivent.id} " %>
+    	    <% if ivent.group.group_relationships.find_by(user_id: current_user.id) %>
+    	      <%= link_to ivent.title, ivent %>
+          <% else %>
+            <%= ivent.title %>
+            <% end %> 
         </div>
       	<div class="panel-body">
       		開催予定日: <%= ivent.date %><br>
