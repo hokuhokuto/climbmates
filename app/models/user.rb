@@ -8,9 +8,9 @@ class User < ApplicationRecord
   
   validates :comment, length: { maximum:255 }
 
-  has_many :groups
+  has_many :groups, dependent: :destroy
   
-  has_many :ivents
+  has_many :ivents, dependent: :destroy
   
   has_many :group_relationships, dependent: :destroy
   has_many :join_groups, through: :group_relationships, source: :group

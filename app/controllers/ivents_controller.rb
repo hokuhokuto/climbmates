@@ -17,8 +17,25 @@ class IventsController < ApplicationController
   def show
     @ivent = Ivent.find_by(id: params[:id])
   end
+  
+  def edit
+    @ivent = Ivent.find_by(id: params[:id])
+  end
 
   def update
+    @ivent = Ivent.find_by(id: params[:id])
+    if @ivent.user == current_user
+      if @ivent.update(ivent_params)
+        flash[:success] = "イベントを編集しました。"
+        redirect_to @ivent
+      else
+        flash[:danger] = 'イベントの編集に失敗しました。'
+        render :edit
+      end
+    else
+      redirect_to @ivent
+    end
+      
   end
 
   def destroy

@@ -4,15 +4,15 @@ class GroupsController < ApplicationController
   
 
   def index
-    @groups = Group.all.order("updated_at DESC")
+    @groups = Group.all.order("updated_at DESC").page(params[:page])
   end
 
   def show
     @group = Group.find_by(id: params[:id])
-    @groups = Group.where(id: params[:id])
+    @groups = Group.where(id: params[:id]).page(params[:page])
     @join_wish_users = User.where(id: pending_user_id)
     @joined_users = User.where(id: joined_user_id)
-    @ivents = Ivent.where(group_id: @group.id)
+    @ivents = Ivent.where(group_id: @group.id).order("updated_at DESC")
   end
 
   def new
@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
   end
   
   def my_groups
-    @groups = current_user.groups
+    @groups = current_user.groups.page(params[:page])
   end
     
 

@@ -1,18 +1,22 @@
-<div class="container text-center">
+<div class="container text-center col-xs-12 col-sm-offset-3 col-sm-6 bg-info">
   <h1><%= @user.name %>さんの詳細ページ</h1>
-  <%= image_tag(image?(@user), size: "150x150") %>
+  <%= image_tag(image?(@user), size: "150x150",class:"img-circle") %>
   <div>
-  <p>コメント:<%= @user.comment %></p>
+  <br><br>一言:<%= @user.comment %>
   </div>
-  <% if @user == current_user %>
-    <%= form_for(@user) do |f| %>
-    <div class="form-group">
-      <%= render 'layouts/error_messages', model: f.object %>
-      <%= f.label :comment, 'Comment' %>
-      <%= f.text_field :comment, class: 'form_controll' %>
-      <%= f.submit "コメント" %>
-    </div>
+  <div class="co-xs-12 col-xm-6">
+    <% if @user == current_user %>
+      <%= form_for(@user) do |f| %>
+        <%= render 'layouts/error_messages', model: f.object %>
+        <div class="form-group">
+          <%= f.text_field :comment, class: 'form_control col-xs-12 col-sm-10' %>
+          <%= f.submit "編集", class: "col-xs-12 col-sm-2" %>
+        </div>
+      <% end %>
+      <div class="col-xs-12">
+        <br><br>
+        <%= link_to "ユーザー情報を編集", edit_user_path, class:"btn btn-primary" %>
+      </div>
     <% end %>
-  <%= link_to "ユーザー情報を編集", edit_user_path %>
-  <% end %>
+  </div>
 </div>

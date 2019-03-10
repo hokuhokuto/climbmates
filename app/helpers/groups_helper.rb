@@ -7,11 +7,12 @@ module GroupsHelper
     end
   end
   
-  def col_size_6to4
+  def owner_or_join_wish_user?
     if @group.user == current_user && @join_wish_users != nil
-      return "col-xs-4"
+      true
     else
-      return "col-xs-6"
+      false
     end
   end
+  
 end

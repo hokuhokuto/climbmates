@@ -1,22 +1,26 @@
-<% groups.each do |group| %>
-<div class="container jumbotron">
-  <div class= "col-xs-8 col-xs-offset-2 col-sm-2 col-sm-offset-0">
-  <%= image_tag(image?(group), size: "160x160" ) %>
-  </div>
-  <div class="col-xs-12 col-sm-10">
-    <ul>
-      <li><span>group_id: </span><%= group.id %></li>
-      <li><span>グループ名: </span><%= link_to group.name, group_path(group) %></li>
-      <li><span>グループ概要: </span><%= group.info %></li>
-      <li><span>リーダー: </span><%= User.find_by(id: group.user_id).name %></li>
-      <% unless current_user.id == group.user_id %>
-      <li><%= render '/group_relationships/join_button', group: group %></li>
-      <% end  %>
-      <% if group.user_id == current_user.id %>
-        <li><%= link_to 'グループの情報を編集する', edit_group_path(group.id) %></li>
-        <li><%= link_to 'グループを解散する', group_path(group.id), method: :delete %></li>
-      <% end %>
-    </ul>
-  </div>
+<div class="containar">
+  <% groups.each do |group| %>
+    <div class="media bg-info" style="padding:20px;">
+    	<%= link_to group_path(group),class: "media-left media-middle" do %>
+    		<%= image_tag(image?(group), size: "160x160",class:"img-circle" ) %>
+    	<% end %>
+    	<div class="media-body">
+    		<h4 class="media-heading">グループ名: <%= link_to group.name, group_path(group) %></h4>
+    		<div class="info">
+    		  <span>■概要<br><%= group.info %></span><br>
+    		  メンバー数:<span class="badge"><%= group.group_relationships.where(approval: "approvaled").count %></span>
+    		</div>
+    		<% unless current_user.id == group.user_id %>
+    		  <br>
+          <%= render '/group_relationships/join_button', group: group %>
+        <% end  %>
+        <% if group.user_id == current_user.id %>
+          <br>
+          <%= link_to 'グループを解散する', group_path(group.id), method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+          <%= link_to 'グループの情報を編集する', edit_group_path(group.id), class: "btn btn-primary btn-xs pull-right" %>
+        <% end %>
+    	</div>
+    </div>
+  <% end %>
+  <%= paginate groups %>
 </div>
-<% end %>

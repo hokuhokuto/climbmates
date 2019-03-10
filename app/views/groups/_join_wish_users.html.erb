@@ -1,0 +1,19 @@
+<% if group.user == current_user && join_wish_users != nil %>
+  <div class="container">
+    <h4>承認待ちのユーザー</h4>
+    <% join_wish_users.each do |user| %>
+      <div class="col-xs-offset-1 col-xs-10 bg-info" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;">
+        <div class="media">
+        	<%= link_to user_path(user),class: "media-left media-middle" do %>
+        		<%= image_tag(image?(user), size: "50x50",class:"img-circle" ) %>
+        	<% end %>
+        	<div class="media-body">
+        		<h4 class="media-heading"><%= user.name %></h4>
+        		<p><%= user.comment %></p>
+        		<%= render "group_relationships/apploval_button", user: user, group: group %>
+        	</div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,7 +1,7 @@
 class ToppagesController < ApplicationController
   def index
     if logged_in?
-      @groups = current_user_join_groups
+      @groups = current_user_join_groups.page(params[:page])
     end
   end
 end

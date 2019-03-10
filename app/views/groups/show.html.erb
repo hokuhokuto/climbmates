@@ -1,48 +1,29 @@
 <h1><%= @group.name %>の詳細ページ</h1>
-<div class="container">
-  <%= render "/groups/group_index", groups: @groups %>
-</div>
+<%= render "/groups/group_index", groups: @groups %>
 
-<% if @joined_users.include?(current_user) %>
-  <div class="container">
-    <%= link_to 'イベントを新規作成', new_ivent_path(group_id: @group.id) %>
-  </div>
-<% end %>
+<!-- タブ・メニュー -->
+<ul class="nav nav-tabs nav-justified">
+	<% if owner_or_join_wish_user? %>
+	  <li class="active"><a href="#ContentA" data-toggle="tab">承認待ちのユーザー<span class="badge"><%= @join_wish_users.count %></span></a></li>
+	<% end %>
+	<li class="<%= "active" unless owner_or_join_wish_user? %>"><a href="#ContentB" data-toggle="tab">イベント一覧<span class="badge"><%= @ivents.count %></a></li>
+	<li><a href="#ContentC" data-toggle="tab">ユーザー一覧<span class="badge"><%= @joined_users.count %></a></li>
+</ul>
 
-<% if @group.user == current_user && @join_wish_users != nil %>
-  <div class="container col-xs-4">
-    <div class="jumbotron">
-      <h4>承認待ちのユーザー</h4>
-      <ul>
-        <% @join_wish_users.each do |user| %>
-          <li><%= link_to user.name, user %><%= render "group_relationships/apploval_button", user: user, group: @group %></li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
-
-<div class="container <%= col_size_6to4 %>">
-  <div class="jumbotron">
-    <h4>参加済のユーザー一覧</h4>
-    <ul>
-      <% @joined_users.each do |user| %>
-        <li><%= link_to user.name, user %></li>
-        <li>コメント:<%= user.comment %></li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<div class="container <%= col_size_6to4 %>">
-  <div class="jumbotron">
-    <h4>イベント一覧</h4>
-    <% @ivents.each do |ivent| %>
-    <ul>
-      <li>イベントID:<%= ivent.id %></li>
-      <li>イベント名:<%= link_to ivent.title, ivent %></li>
-      <li>イベント概要:<%= ivent.content %></li>
-    </ul>
+<!-- タブ内容 -->
+<div class="tab-content">
+  <% if owner_or_join_wish_user? %>
+  	<div class="tab-pane active" id="ContentA">
+  		<%= render "/groups/join_wish_users",group: @group, join_wish_users: @join_wish_users %>
+  	</div>
+  <% end %>
+	<div class="tab-pane <%= "active" unless owner_or_join_wish_user? %>" id="ContentB">
+    <% if @joined_users.include?(current_user) %>
+      <%= link_to 'イベントを新規作成', new_ivent_path(group_id: @group.id),class: "btn btn-primary" %>
     <% end %>
-  </div>
+		<%= render "/groups/ivent_index",ivents: @ivents %>
+	</div>
+	<div class="tab-pane" id="ContentC">
+		<%= render "/groups/joined_users",joined_users: @joined_users %>
+	</div>
 </div>
