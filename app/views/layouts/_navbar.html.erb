@@ -14,25 +14,25 @@
         <ul class="nav navbar-nav navbar-right">
           <% if logged_in? %>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= "Groups" %> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= "グループ" %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><%= link_to 'ALL Group', allgroups_path %></li>
-                <li role="separator", class="dividerrail"></li>
-                <li><%= link_to 'MyGroups', mygroups_path %></li>
-                <li><%= link_to 'CreateGroup', new_group_path %></li>
+                <li><%= link_to '全てのグループ', allgroups_path %></li>
+                <li><%= link_to '参加中のグループ', root_path %></li>
+                <li><%= link_to '主催のグループ', mygroups_path %></li>
+                <li><%= link_to 'グループを新規作成', new_group_path %></li>
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.name %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><%= link_to 'My profile', user_path(current_user) %></li>
+                <li><%= link_to 'プロフィール', user_path(current_user) %></li>
                 <li role="separator", class="divider"></li>
-                <li><%= link_to 'Logout', logout_path, method: :delete %></li>
+                <li><%= link_to 'ログアウト', logout_path, method: :delete %></li>
               </ul>
             </li>
           <% else %>
-            <li><%= link_to 'Signup', signup_path %></li>
-            <li><%= link_to 'Login', login_path %></li>
+            <li><%= link_to 'サインアップ', signup_path %></li>
+            <li><%= link_to 'ログイン', login_path %></li>
           <% end %>
         </ul>
       </div>

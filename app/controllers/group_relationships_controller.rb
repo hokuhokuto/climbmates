@@ -20,15 +20,19 @@ class GroupRelationshipsController < ApplicationController
       flash[:danger] = 'グループを脱退しました。'
       redirect_to group
     end
-      
-      
   end
   
   def update
     group = Group.find(params[:group_id])
-    group_relationship = GroupRelationship.where(user_id: params[:user_id]).find_by(group_id: params[:group_id])
-    group_relationship.approval = "approvaled"
-    group_relationship.save
-    redirect_to group
+    user = User.find(params[:user_id])
+    if group.user == current_user
+      group_relationship = GroupRelationship.where(user_id: params[:user_id]).find_by(group_id: params[:group_id])
+      group_relationship.approval = "approvaled"
+      group_relationship.save
+      flash[:success] = "#{user.name}さんの参加を承認しました。"
+      redirect_to group
+    else
+      redirect_to group
+    end
   end
 end
