@@ -8,7 +8,8 @@
     		<h4 class="media-heading">グループ名: <%= link_to group.name, group_path(group) %></h4>
     		<div class="info">
     		  <span>■概要<br><%= group.info %></span><br>
-    		  メンバー数:<span class="badge"><%= group.group_relationships.where(approval: "approvaled").count %></span>
+    		  メンバー数:<span class="badge"><%= group.group_relationships.where(approval: "approvaled").count %></span><br><br>
+    		  イベント数:<span class="badge"><%= group.ivents.count %></span>
     		</div>
     		<% unless current_user.id == group.user_id %>
     		  <br>
