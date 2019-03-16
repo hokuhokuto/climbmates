@@ -5,7 +5,7 @@ class Group < ApplicationRecord
   
   belongs_to :user
   
-  has_many :ivents, dependent: :destroy
+  has_many :events, dependent: :destroy
   
   has_many :group_relationships, dependent: :destroy
   has_many :joined_users, through: :group_relationships, source: :user

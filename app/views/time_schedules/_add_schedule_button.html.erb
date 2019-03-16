@@ -1,0 +1,8 @@
+<% if event.user == current_user %>
+  <%= form_for(event.time_schedules.build) do |f| %>
+    <%= f.select :time, times %>
+    <%= f.text_field :content, style:"width:60%;" %>
+    <%= hidden_field_tag :event_id, event.id %>
+    <%= f.submit "create",class:"btn btn-primary form-inline" %>
+  <% end %>
+<% end %>

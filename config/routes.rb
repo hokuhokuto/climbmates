@@ -20,7 +20,10 @@ Rails.application.routes.draw do
   #GroupRelationship
   resources :group_relationships, only: [:create, :destroy, :update]
   
-  #Ivent
-  resources :ivents, only: [:new, :show, :create, :edit, :update, :destroy]
+  #Event
+  resources :events, only: [:new, :show, :create, :edit, :update, :destroy]
   
+  
+  # TimeSchedule
+  resources :time_schedules, only: [ :create, :edit, :destroy, :new ]
 end

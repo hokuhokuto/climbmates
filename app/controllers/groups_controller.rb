@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
     @groups = Group.where(id: params[:id]).page(params[:page])
     @join_wish_users = User.where(id: pending_user_id)
     @joined_users = User.where(id: joined_user_id)
-    @ivents = Ivent.where(group_id: @group.id).order("updated_at DESC")
+    @events = Event.where(group_id: @group.id).order("updated_at DESC")
   end
 
   def new
@@ -53,7 +53,7 @@ class GroupsController < ApplicationController
     if @group.user_id == current_user.id
       @group.destroy
       flash[:success] = 'グループを削除しました。'
-      redirect_to groups_path
+      redirect_to groups_url
     else
       flash[:caution] = 'グループを削除できませんでした。'
       render group_path(@group.id)
@@ -80,7 +80,7 @@ class GroupsController < ApplicationController
   def group_owner?
     group = Group.find(params[:id])
     unless group.user_id == current_user.id
-      redirect_to groups_path
+      redirect_to groups_url
     end
   end
   

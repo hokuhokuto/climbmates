@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190306131615) do
+ActiveRecord::Schema.define(version: 20190311113620) do
+
+  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.string   "title"
+    t.string   "content"
+    t.date     "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_events_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_events_on_user_id", using: :btree
+  end
 
   create_table "group_relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -25,38 +37,36 @@ ActiveRecord::Schema.define(version: 20190306131615) do
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string   "info"
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
   end
 
-  create_table "ivents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "group_id"
-    t.string   "title"
+  create_table "time_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "event_id"
+    t.string   "time"
     t.string   "content"
-    t.date     "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_ivents_on_group_id", using: :btree
-    t.index ["user_id"], name: "index_ivents_on_user_id", using: :btree
+    t.index ["event_id"], name: "index_time_schedules_on_event_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.string   "image"
     t.string   "comment"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "events", "groups"
+  add_foreign_key "events", "users"
   add_foreign_key "group_relationships", "groups"
   add_foreign_key "group_relationships", "users"
   add_foreign_key "groups", "users"
-  add_foreign_key "ivents", "groups"
-  add_foreign_key "ivents", "users"
+  add_foreign_key "time_schedules", "events"
 end

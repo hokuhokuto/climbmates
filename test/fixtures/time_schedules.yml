@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ivent: one
+  time: MyString
+  content: MyString
+
+two:
+  ivent: two
+  time: MyString
+  content: MyString

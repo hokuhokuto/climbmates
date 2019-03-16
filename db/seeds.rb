@@ -26,12 +26,12 @@ end
 
 length = names.length + 1
 
-(1..length).each_with_index do |group_id,index|
+(1..length).each do |group_id|
   (1..length).each do |user_id|
     group_relationship = GroupRelationship.new
     group_relationship.group_id = group_id
     group_relationship.user_id = user_id
-    if user_id.odd?
+    if group_id == user_id || group_id + 1 == user_id
       group_relationship.approval = "approvaled"
     else
       group_relationship.approval = "pending"
@@ -41,13 +41,13 @@ length = names.length + 1
 end
 
 (1..length).each do |group_id|
-  (1..length).each do |user_id|
-    ivent = Ivent.new
-    ivent.group_id = group_id
-    ivent.user_id = user_id
-    ivent.title = "#{names[user_id]}主催の登山"
-    ivent.content = "春だし山に登ろう"
-    ivent.date = "2019/3/16"
-    ivent.save
+  (1..3).each do |user_id|
+    event = Event.new
+    event.group_id = group_id
+    event.user_id = user_id
+    event.title = "#{names[user_id - 1]}主催の登山"
+    event.content = "春だし山に登ろう"
+    event.date = "2019/3/16"
+    event.save
   end
 end    

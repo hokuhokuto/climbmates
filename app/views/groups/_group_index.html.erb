@@ -10,7 +10,7 @@
     		  グループオーナー: <%= group.user.name %><br>
     		  <span>■概要<br><%= group.info %></span><br>
     		  メンバー数:<span class="badge"><%= group.group_relationships.where(approval: "approvaled").count %></span>
-    		  イベント数:<span class="badge"><%= group.ivents.count %></span>
+    		  イベント数:<span class="badge"><%= group.events.count %></span>
     		</div>
     		<% unless current_user.id == group.user_id %>
     		  <br>

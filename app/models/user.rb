@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   has_many :groups, dependent: :destroy
   
-  has_many :ivents, dependent: :destroy
+  has_many :events, dependent: :destroy
   
   has_many :group_relationships, dependent: :destroy
   has_many :join_groups, through: :group_relationships, source: :group

@@ -1,0 +1,71 @@
+<div class="bg-info" style="padding:20px;">
+  <div class="media">
+    <h1>&nbsp;<span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>  <%= @event.title %></h1>
+    <p>&nbsp;イベント主催者: <%= @event.user.name %></p>
+    <p>&nbsp;開催予定日: <%= @event.date%></p>
+    <p>&nbsp;イベント概要: <%= @event.content %></p>
+    <% if @event.user == current_user %>
+      <%= link_to "イベントを削除", event_path(@event),method: :delete, class: "btn btn-danger pull-right" %>
+      <%= link_to '編集', edit_event_path(@event),class: "btn btn-primary pull-right"%>
+
+    <% end %>
+    <a href="#" class="btn btn-primary pull-right">参加する</a>
+    
+    	
+  </div>
+</div>
+
+<ul class="nav nav-tabs nav-justified">
+	<li class="active"><a href="#ContentA" data-toggle="tab">当日のスケジュール</a></li>
+	<li><a href="#ContentB" data-toggle="tab">持ち物一覧</a></li>
+	<li><a href="#ContentC" data-toggle="tab">参加予定者一覧</a></li>
+</ul>
+
+<!-- タブ内容 -->
+<div class="tab-content">
+	<div class="tab-pane active" id="ContentA">
+			<div style="padding-top:60px; margin-left:20%; width:60%;">
+				<p>当日のスケジュール一覧</p>
+				<% unless @time_schedules == [] %>
+					<table class="table">
+						<tr>
+							<td style="width:20%; text-align:center;">予定時刻</td>
+							<td style="width:70%; text-align:center;">スケジュール内容</td>
+							<% if @event.user == current_user %>
+								<td style="width:10%; text-align:center;">ボタン</td>
+							<% end %>
+						</tr>
+						<% @time_schedules.each do |time_schedule| %>
+							<tr>
+								<td style="text-align:center;"><%= time_schedule.time %></td>
+								<td style="text-align:center;"><%= time_schedule.content %></td>
+								<% if @event.user == current_user %>
+									<td><%= render "/time_schedules/schedule_delete_button",time_schedule: time_schedule, event: @event %></td>
+								<% end %> 
+							</tr>
+						<% end %>
+					</table>
+				<% else %>
+					<p>スケジュールはまだ作成していません</p>
+				<% end %>
+			
+			<%= render "/time_schedules/add_schedule_button", event: @event %>
+			</div>
+	</div>
+	
+	<div class="tab-pane" id="ContentB">
+		<div style="padding-left:100px; padding-top:60px;">
+    	<p>持ち物一覧</p>
+    </div>
+	</div>
+	
+	<div class="tab-pane" id="ContentC">
+		<div style="padding-left:100px; padding-top:60px;">
+    	<p>参加予定者一覧を表示</p>
+    </div>
+	</div>
+</div>
+
+
+
+

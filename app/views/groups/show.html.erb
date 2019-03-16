@@ -1,16 +1,14 @@
 <h1><%= @group.name %>の詳細ページ</h1>
 <%= render "/groups/group_index", groups: @groups %>
 
-<!-- タブ・メニュー -->
 <ul class="nav nav-tabs nav-justified">
 	<% if owner_or_join_wish_user? %>
 	  <li class="active"><a href="#ContentA" data-toggle="tab">承認待ちのユーザー<span class="badge"><%= @join_wish_users.count %></span></a></li>
 	<% end %>
-	<li class="<%= "active" unless owner_or_join_wish_user? %>"><a href="#ContentB" data-toggle="tab">イベント一覧<span class="badge"><%= @ivents.count %></a></li>
+	<li class="<%= "active" unless owner_or_join_wish_user? %>"><a href="#ContentB" data-toggle="tab">イベント一覧<span class="badge"><%= @events.count %></a></li>
 	<li><a href="#ContentC" data-toggle="tab">ユーザー一覧<span class="badge"><%= @joined_users.count %></a></li>
 </ul>
 
-<!-- タブ内容 -->
 <div class="tab-content">
   <% if owner_or_join_wish_user? %>
   	<div class="tab-pane active" id="ContentA">
@@ -19,9 +17,9 @@
   <% end %>
 	<div class="tab-pane <%= "active" unless owner_or_join_wish_user? %>" id="ContentB">
     <% if @joined_users.include?(current_user) %>
-      <%= link_to 'イベントを新規作成', new_ivent_path(group_id: @group.id),class: "btn btn-primary" %>
+      <%= link_to 'イベントを新規作成', new_event_path(group_id: @group.id),class: "btn btn-primary" %>
     <% end %>
-		<%= render "/groups/ivent_index",ivents: @ivents %>
+		<%= render "/groups/event_index",events: @events %>
 	</div>
 	<div class="tab-pane" id="ContentC">
 		<%= render "/groups/joined_users",joined_users: @joined_users %>

@@ -15,4 +15,17 @@ module GroupsHelper
     end
   end
   
+  
+  def current_user_joined?(event)
+    if event.group.group_relationships.find_by(user_id: current_user.id)
+      if event.group.group_relationships.find_by(user_id: current_user.id).approval == "approvaled"
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+        
 end
